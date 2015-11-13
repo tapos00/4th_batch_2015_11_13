@@ -1,10 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
 </head>
-<body>
-<h1>hello world</h1>
+<body ng-controller="myctrl">
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        <col-md-12>
+            <div class="alert alert-success" role="alert">
+                <a href="#" class="alert-link"> <strong> Total Student :{{students.length}} </strong></a>
+            </div>
+        </col-md-12>
+        <col-md-6 ng-hide="totalPresent()==0" >
+            <div class="alert alert-success" role="alert">
+                <a href="#" class="alert-link"> <strong>Total Present : {{totalPresent()}}  </strong></a>
+            </div>
+        </col-md-6>
+        <col-md-6 ng-hide="(students.length -totalPresent() )==0" >
+            <div class="alert alert-danger" role="alert">
+                <a href="#" class="alert-link"> <strong>Total Absent : {{(students.length -totalPresent() )}}</strong></a>
+            </div>
+        </col-md-6>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" ng-model="aStudent.name" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="text" ng-model="aStudent.email" class="form-control">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Address</label>
+                    <div class="col-sm-10">
+                        <input type="text" ng-model="aStudent.address" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input ng-init="aStudent.status= false" ng-model="aStudent.status" type="checkbox"> Is Present
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" ng-disabled="(aStudent.name=='' ||aStudent.name==null) || (aStudent.email=='' || aStudent.email==null)|| (aStudent.address=='' || aStudent.address==null)" ng-click="addStudent(aStudent)" class="btn btn-default">Add Student</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <td>SL</td>
+                    <td>Name</td>
+                    <td>Email</td>
+                    <td>Address</td>
+                    <td>Status</td>
+                    <td>info</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="aStudent in students">
+                    <td>{{ ($index + 1)}}</td>
+                    <td>{{aStudent.name}}</td>
+                    <td>{{ aStudent.email}}</td>
+                    <td>{{aStudent.address}}</td>
+                    <td><input type="checkbox" ng-model="aStudent.status" value=""></td>
+                    <td>{{aStudent.status}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script !src="">
+
+    var myapp = angular.module("myApp",[]);
+    myapp.controller("myctrl",function($scope){
+        $scope.students = [
+            {name:"ab",email:"ab@gmail.com",address:"dhaka",status:true},
+            {name:"cd",email:"cd@gmail.com",address:"dhaka",status:false},
+            {name:"ef",email:"ef@gmail.com",address:"dhaka",status:true},
+        ];
+
+        $scope.totalPresent = function(){
+            var count = 0;
+            angular.forEach($scope.students, function(astudnet) {
+                if(astudnet.status==true){
+                    count++;
+                }
+            });
+            return count;
+        };
+
+        $scope.addStudent = function(aStudent){
+            $scope.students.push(aStudent);
+            $scope.aStudent = null;
+        }
+
+
+    });
+</script>
 </body>
 </html>
