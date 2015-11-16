@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+</head>
+<body ng-controller="myctrl">
+<div class="container" style="margin-top: 50px;">
+    
+    <div class="row">
+        <select class="form-control">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Category</td>
+                    <td>Expiry</td>
+                    <td class="text-right">Price</td>
+                    <td>Json</td>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="aProduct in products">
+                    <td>{{aProduct.name | uppercase}}</td>
+                    <td>{{ aProduct.category| lowercase}}</td>
+                    <td>{{expireDate(aProduct.expiry)|date:'dd , MMM , yyyy'}}</td>
+                    <td>{{aProduct.price| number:5}}</td>
+                    <td>{{aProduct | json}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<!-- <script src="angular-locale_bn-bd.js"></script> -->
+<script !src="">
+
+    var myapp = angular.module("myApp",[]);
+    myapp.controller("myctrl",function($scope){
+        
+            $scope.products = [
+                { name: "Apples", category: "Fruit", price: 1.20, expiry: 10 },
+                { name: "Bananas", category: "Fruit", price: 2.42, expiry: 7 },
+                { name: "Pears", category: "Fruit", price: 2.02, expiry: 6 },
+                { name: "Tuna", category: "Fish", price: 20.45, expiry: 3 },
+                { name: "Salmon", category: "Fish", price: 17.93, expiry: 2 },
+                { name: "Trout", category: "Fish", price: 12.93, expiry: 4 },
+                { name: "Beer", category: "Drinks", price: 2.99, expiry: 365 },
+                { name: "Wine", category: "Drinks", price: 8.99, expiry: 365 },
+                { name: "Whiskey", category: "Drinks", price: 45.99, expiry: 365 }
+            ];
+
+            $scope.expireDate = function(days){
+
+                    var mydate = new Date();
+                    mydate.setDate(mydate.getDate() + days);
+                    return mydate;
+            };
+
+    });
+</script>
+
+
+</body>
+</html>
