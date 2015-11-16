@@ -10,13 +10,8 @@
 <div class="container" style="margin-top: 50px;">
     
     <div class="row">
-        <select class="form-control">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
+        <select class="form-control" ng-options="item for item in total" ng-model="showValue"></select>
+        
         <div class="col-md-12">
             <table class="table table-bordered">
                 <thead>
@@ -30,7 +25,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="aProduct in products">
+                <tr ng-repeat="aProduct in products|limitTo:showValue">
                     <td>{{aProduct.name | uppercase}}</td>
                     <td>{{ aProduct.category| lowercase}}</td>
                     <td>{{expireDate(aProduct.expiry)|date:'dd , MMM , yyyy'}}</td>
@@ -62,12 +57,19 @@
                 { name: "Whiskey", category: "Drinks", price: 45.99, expiry: 365 }
             ];
 
+            $scope.total = [];
+            for(var i = ($scope.products.length*-1); i<=$scope.products.length;i++){
+                $scope.total.push(i);
+            };
+
             $scope.expireDate = function(days){
 
                     var mydate = new Date();
                     mydate.setDate(mydate.getDate() + days);
                     return mydate;
             };
+
+            $scope.showValue = 5;
 
     });
 </script>
